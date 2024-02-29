@@ -7,12 +7,15 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 public class ArticleDetailsActivity extends AppCompatActivity {
     TextView title;
     TextView author;
     TextView date;
     TextView details;
     ImageView image;
+    Article article;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +28,13 @@ public class ArticleDetailsActivity extends AppCompatActivity {
         details=findViewById(R.id.details);
         image=findViewById(R.id.image);
 
-        title.setText(getIntent().getStringExtra("title"));
-        author.setText(getIntent().getStringExtra("author"));
-        date.setText(getIntent().getStringExtra("date"));
-        details.setText(getIntent().getStringExtra("details"));
-        image.setImageResource(getIntent().getIntExtra("image",R.drawable.image1));
+        article=new Gson().fromJson(getIntent().getStringExtra("data"),Article.class);
+
+        title.setText(article.getTitle());
+        author.setText(article.getAuthor());
+        date.setText(article.getDate());
+        details.setText(article.getDescription());
+        image.setImageResource(article.getImage());
 
         author.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
